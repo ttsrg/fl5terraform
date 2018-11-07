@@ -1,2 +1,5 @@
 *.key
 /.terraform
+.credsfake
+terraform.tfstate*
+

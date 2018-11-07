@@ -8,9 +8,9 @@ variable "domains" {
   default = ["web", "api"]
 }
 
-#variable "name" {
-#  default = "calc"
-#}
+variable "name" {
+  default = "calc"
+}
 
 variable "environment" {
   default = "prod"
