@@ -16,7 +16,7 @@ variable "environment" {
   default = "prod"
 }
 variable "ssh_key_path" {
-  default = "~/.aws/id_rsa.pub"
+  default = "~/.providers/id_rsa.pub"
 }
 
 #variable "allowed_mgmnt_address" {
