@@ -1,0 +1,11 @@
+---
+
+- name: Create symlink https
+  file:
+    src: /etc/nginx/sites-available/{{ v_sitename }}.https.conf
+    dest: /etc/nginx/sites-enabled/{{ v_sitename }}.https.conf
+    state: link
+  notify: restart nginx https           #@_ro3a thank you a lot for the feature ;) 
+
+- name: restart nginx httpS
+  service: name=nginx state=restarted

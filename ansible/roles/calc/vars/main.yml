@@ -1,0 +1,6 @@
+---
+ nginx_port: 80
+ nginx_sshport: 443
+ calc_additional_packages:
+   - golang-go
+   - htop

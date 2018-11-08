@@ -1,0 +1,45 @@
+---
+- name: Clone repo goapp-web
+  git:
+    repo: https://github.com/ttsrg/goapp-web.git
+    dest: /srv/www/
+    version: feature
+
+- name: Delete git directory                                      #security
+  file: path=/srv/www/.git state=absent
+
+
+- name: Create nginx http conf
+  template:
+    src: http.conf.j2
+    dest: /etc/nginx/sites-available/{{ v_sitename }}.http.conf
+    owner: root 
+    group: root 
+    mode: 0644   
+  notify: restart nginx
+   
+
+- name: Create symlink http
+  file: 
+    src: /etc/nginx/sites-available/{{ v_sitename }}.http.conf
+    dest: /etc/nginx/sites-enabled/{{ v_sitename }}.http.conf
+    state: link
+  notify: restart nginx
+
+
+
+- name: Create nginx httpS conf
+  template:
+    src: https.conf.j2
+    dest: /etc/nginx/sites-available/{{ v_sitename }}.https.conf
+    owner: root
+    group: root
+    mode: 0644
+
+#move to letsencrypt
+#- name: Create symlink httpS
+#  file:
+#    src: /etc/nginx/sites-available/{{ v_sitename }}.https.conf
+#    dest: /etc/nginx/sites-enabled/{{ v_sitename }}.https.conf
+#    state: link
+

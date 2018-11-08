@@ -1,0 +1,19 @@
+---
+- name: install letsencrypt
+  apt: name=letsencrypt state=latest
+
+- name: Create letsencrypt directory
+  file: name=/srv/acme state=directory
+
+- name: Create letsencrypt certificate
+  shell: letsencrypt certonly -n  --webroot -w /srv/acme -m {{ v_letsencrypt_email }} --agree-tos  -d {{ v_sitename }}
+  args:
+    creates: /etc/letsencrypt/live/{{ v_sitename }}
+  notify: Create symlink httpS
+
+
+- name: Add letsencrypt cronjob for cert renewal
+  cron:
+    name: letsencrypt_renewal
+    special_time: daily
+    job: letsencrypt --renew certonly  -n --webroot -w /srv/acme -m {{ v_letsencrypt_email }} --agree-tos -d {{ v_sitename }} && service nginx reload

@@ -1,0 +1,15 @@
+server {
+ listen {{ nginx_port }};
+ server_name {{ v_sitename }};
+ 
+ location /.well-known/ {
+  root /srv/acme;
+ }
+
+ location / {
+ return 301 https://{{ v_sitename }}$request_uri;
+ root /var/www/html; 
+ index index.html index.htm index.nginx-debian.html;
+ }
+
+}

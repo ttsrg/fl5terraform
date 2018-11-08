@@ -1,0 +1,29 @@
+---
+- name: Clone repo goappSUM
+  git:
+    repo: https://github.com/ttsrg/goapp.git
+    dest: /srv/goapp/
+    version: a34011cd4c07e93e46f1e2a90b1a8397619f7789            # I've special imitated developer's work
+#    update: no    
+
+- name: Delete git directory                                      #security
+  file: path=/srv/goapp/.git state=absent
+  
+
+- name: Install additional packages
+  apt: name={{ item }} state=latest
+  with_items: '{{ calc_additional_packages }}'
+
+- name: Build main.go
+  shell: go build  -o /srv/goapp/gomain /srv/goapp/main.go
+  args:
+    creates: /srv/goapp/gomain 
+
+- name: Create  systemd unit file
+  template: src=gomain.j2 dest=/etc/systemd/system/gomain.service
+
+- name: Start gomain.service
+  systemd: state=started name=gomain.service daemon_reload=yes enabled=yes
+
+
+

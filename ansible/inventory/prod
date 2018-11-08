@@ -1,0 +1,7 @@
+[calc-web]
+#ttserg.devops.srwx.net ansible_ssh_user=root ansible_private_key_file=/root/.ssh/nginxtt
+"${aws_instance.web.public_ip}" ansible_ssh_user=root ansible_private_key_file=/root/.ssh/nginxtt
+
+[calc-api]
+"${aws_instance.api.public_ip}" ansible_ssh_user=root ansible_private_key_file=/root/.ssh/nginxtt
+

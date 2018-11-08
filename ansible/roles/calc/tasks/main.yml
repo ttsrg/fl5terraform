@@ -1,0 +1,4 @@
+---
+- include: goappsum.yml          
+- include: godiff.yml
+- include: goapp-web.yml 

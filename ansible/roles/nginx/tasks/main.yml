@@ -1,0 +1,14 @@
+---
+- name: Install nginx
+  apt: name=nginx state=present
+
+- name: Remove default nginx config
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify:  restart-nginx
+
+- name: Force restart-nginx              #force ACTIVE hanflers!!!
+  meta: flush_handlers
+
+- name: Setup default nginx configuration
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+  notify: restart-nginx
